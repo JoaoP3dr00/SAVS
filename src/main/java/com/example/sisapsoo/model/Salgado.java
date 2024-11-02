@@ -1,45 +1,76 @@
 package com.example.sisapsoo.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "Salgado")
 public class Salgado {
+	/* VARIÁVEIS DA CLASSE */
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "salg_sequence")
+    @SequenceGenerator(sequenceName = "salg_sequence", name = "salg_seq")
+    @Column(name = "id")
+	private Integer id;
 
-	private String ID;
-
+	@Column(name = "nome")
 	private String nome;
 
-	private float preco;
+	@Column(name = "preco")
+	private Double preco;
 
-	private int quantidadeDisponivel;
+	@Column(name = "qtd_dispo")
+	private Integer qtd_dispo;
 
-	public void getId() {
+	/* CONSTRUTOR */
 
+	public Salgado(){
+		
 	}
 
-	public void getNome() {
-
+	public Salgado(String nome, Double preco, Integer qtd_dispo){
+		this.nome = nome;
+		this.preco = preco;
+		this.qtd_dispo = qtd_dispo;
 	}
 
-	public void getPreco() {
-
+	/* GETTER */
+	public Integer getId() {
+		return this.id;
 	}
 
-	public void getQuantidade() {
-
+	public String getNome() {
+		return this.nome;
 	}
 
-	public void setId() {
-
+	public Double getPreco() {
+		return this.preco;
 	}
 
-	public void setNome() {
-
+	public Integer getQuantidade() {
+		return this.qtd_dispo;
 	}
 
-	public void setPreco() {
-
+	/* SETTER */
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
-	public void setQuantidade() {
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
 
+	public void setPreco(Double preco) {
+		this.preco = preco;
+	}
+
+	public void setQuantidade(Integer qtd) {
+		this.qtd_dispo = qtd;
 	}
 
 }

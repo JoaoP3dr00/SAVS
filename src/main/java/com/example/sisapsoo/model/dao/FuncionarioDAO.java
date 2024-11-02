@@ -2,11 +2,8 @@ package com.example.sisapsoo.model.dao;
 
 import com.example.sisapsoo.connection.ConnectionFactory;
 import com.example.sisapsoo.model.Funcionario;
-import jakarta.persistence.Query;
 import jakarta.persistence.EntityManager;
 import java.util.List;
-
-import org.hibernate.query.NativeQuery;
 
 public class FuncionarioDAO {
     EntityManager em = new ConnectionFactory().getConnection();

@@ -3,6 +3,9 @@ package com.example.sisapsoo;
 import com.example.sisapsoo.controller.CadastroFuncController;
 import com.example.sisapsoo.controller.GerenciamentoFuncs;
 import com.example.sisapsoo.controller.LoginController;
+import com.example.sisapsoo.model.Salgado;
+import com.example.sisapsoo.model.dao.SalgadoDAO;
+
 // import com.example.sisapsoo.model.Gerente;
 // import com.example.sisapsoo.model.dao.GerenteDAO;
 import javafx.application.Application;
@@ -20,16 +23,29 @@ public class HelloApplication extends Application {
 //        Image icon = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/assets/images/coxinha.png")));
 //        stage.getIcons().add(icon);
 
-        // Gerente g = new Gerente();
-        // GerenteDAO gDAO = new GerenteDAO();
+        /* TESTE GERENTE
+        Gerente g = new Gerente();
+        GerenteDAO gDAO = new GerenteDAO();
 
-        // g.setId("4");
-        // g.setSenha("1234");
-        // g.setNome("jose");
-        // g.setCpf("11");
-        // g.setTelefone("2333");
-        // g.setSalario(98.0);
-        // gDAO.save(g);
+        g.setId("4");
+        g.setSenha("1234");
+        g.setNome("jose");
+        g.setCpf("11");
+        g.setTelefone("2333");
+        g.setSalario(98.0);
+        gDAO.save(g);
+        */
+
+        /* TESTE SALGADO 
+        Salgado s = new Salgado();
+        SalgadoDAO sDao = new SalgadoDAO();
+
+        s.setNome("Coxinha");
+        s.setPreco(12.3);
+        s.setQuantidade(44);
+
+        sDao.save(s);
+        */
 
         LoginController controller = fxmlLoader.getController();
 
