@@ -4,89 +4,76 @@ import com.example.sisapsoo.model.Funcionario;
 import jakarta.persistence.EntityManager;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class FuncionarioDAO {
 
-    EntityManager em = getEntityManager();
+    EntityManager entityManager = getEntityManager();
 
     private EntityManager getEntityManager() {
         return ConnectionFactory.getConnection();
     }
 
-    public Funcionario save(Funcionario f) {
-//        EntityManager em = getEntityManager();
+    public Funcionario save(Funcionario funcionario) {
         try {
-            em.getTransaction().begin();
-            em.persist(f);
-            em.getTransaction().commit();
+            entityManager.getTransaction().begin();
+            entityManager.persist(funcionario);
+            entityManager.getTransaction().commit();
             System.out.println("SALVOU FUNCIONARIO");
-        } catch (Exception e) {
-            em.getTransaction().rollback();
-            System.err.println("Erro ao salvar funcionário: " + e.getMessage());
+        } catch (Exception exception) {
+            entityManager.getTransaction().rollback();
+            System.err.println("Erro ao salvar funcionário: " + exception.getMessage());
         } finally {
-            em.close();
+            entityManager.close();
         }
-        return f;
+        return funcionario;
     }
 
-//    public Funcionario update(Funcionario f){
-//        EntityManager em = getEntityManager();
-//        try {
-//            em.getTransaction().begin();
-//            em.merge(f);
-//            em.getTransaction().commit();
-//        } catch(Exception e){
-//            em.getTransaction().rollback();
-//            System.err.println("Erro ao atualizar o funcionário: " + e);
-//        } finally {
-//            em.close();
-//        }
-//        return f;
-//    }
-
     public Funcionario findById(Integer id) {
-        EntityManager em = getEntityManager();
-        Funcionario f = null;
+        EntityManager entityManager = getEntityManager();
+        Funcionario funcionario = null;
 
         try {
-            f = em.find(Funcionario.class, id);
-        } catch (Exception e) {
-            System.err.println("Erro ao buscar funcionário: " + e.getMessage());
+            funcionario = entityManager.find(Funcionario.class, id);
+        } catch (Exception exception) {
+            System.err.println("Erro ao buscar funcionário: " + exception.getMessage());
         } finally {
-            em.close();
+            entityManager.close();
         }
-        return f;
+        return funcionario;
     }
 
     public List<Funcionario> findAll() {
-        EntityManager em = getEntityManager();
-        List<Funcionario> funcionarios = new ArrayList<>();
+        EntityManager entityManager = getEntityManager();
+        List<Funcionario> funcionarios = null;
 
         try {
-            funcionarios = em.createQuery("from Funcionario f", Funcionario.class).getResultList();
-        } catch (Exception e) {
-            System.err.println("Erro ao listar funcionários: " + e.getMessage());
+            funcionarios = entityManager.createQuery("from Funcionario f").getResultList();
+        } catch (Exception exception) {
+            System.err.println("Erro ao listar funcionários: " + exception);
         } finally {
-            em.close();
+            entityManager.close();
         }
         return funcionarios;
     }
 
-    public void remove(Integer id) {
-        EntityManager em = getEntityManager();
+    public Funcionario remove(Integer id) {
+        EntityManager entityManager = getEntityManager();
+        Funcionario funcionario = null;
+
         try {
-            Funcionario f = em.find(Funcionario.class, id);
-            em.getTransaction().begin();
-            em.remove(f);
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            em.getTransaction().rollback();
-            System.err.println("Erro ao remover funcionário: " + e.getMessage());
-            throw e;
+            funcionario = entityManager.find(Funcionario.class, id);
+            entityManager.getTransaction().begin();
+            entityManager.remove(funcionario);
+            entityManager.getTransaction().commit();
+        } catch (Exception exception) {
+            entityManager.getTransaction().rollback();
+            System.err.println("Erro ao remover funcionário: " + exception.getMessage());
+            throw exception;
         } finally {
-            em.close();
+            entityManager.close();
         }
+
+        return funcionario;
     }
 }

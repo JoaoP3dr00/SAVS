@@ -3,75 +3,74 @@ package com.example.sisapsoo.controller;
 import com.example.sisapsoo.model.Funcionario;
 import com.example.sisapsoo.model.dao.FuncionarioDAO;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+
+import java.awt.event.ActionEvent;
 
 public class AdicionaFuncionarioController {
 
     private GerenciamentoFuncs gerenciamentoFuncs;
     private FuncionarioDAO funcionarioDAO;
+    private Funcionario funcionario;
 
     @FXML
-    private TextField nomeField;
+    private TextField campoNome;
+    @FXML
+    private TextField campoCpf;
+    @FXML
+    private TextField campoSalario;
+    @FXML
+    private TextField campoTelefone;
 
     @FXML
-    private TextField cpfField;
+    void reiniciar(ActionEvent event) {
+        campoNome.clear();
+        campoTelefone.clear();
+        campoCpf.clear();
+        campoSalario.clear();
 
-    @FXML
-    private TextField salarioField;
+        campoNome.setDisable(false);
+        campoTelefone.setDisable(false);
+        campoCpf.setDisable(false);
+        campoSalario.setDisable(false);
 
-    @FXML
-    private TextField telefoneField;
-
-    // Construtor para garantir que FuncionarioDAO é inicializado
-    public AdicionaFuncionarioController() {
-        this.funcionarioDAO = new FuncionarioDAO();
-    }
-
-    public void setGerenciamentoFuncs(GerenciamentoFuncs gerenciamentoFuncs) {
-        this.gerenciamentoFuncs = gerenciamentoFuncs;
-    }
-
-    @FXML
-    public void initialize() {
-        // Listener para restringir entrada a números e pontos decimais
-        salarioField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("\\d*(\\.\\d*)?")) {
-                salarioField.setText(oldValue);
-            }
-        });
+        return;
     }
 
     @FXML
-    public void adicionarFuncionario() {
-        // Verifica se GerenciamentoFuncs foi injetado corretamente
-        if (gerenciamentoFuncs == null) {
-            System.err.println("Erro: GerenciamentoFuncs não foi configurado.");
+    void salvar(ActionEvent event) {
+        funcionario = new Funcionario();
+        funcionarioDAO = new FuncionarioDAO();
+
+        // Verifica se todos os campos estão preenchidos
+        if(campoNome.getText().isEmpty() || campoTelefone.getText().isEmpty()){
+            showAlert("Campos vazios!", "Não deixe nenhum campo vazio.");
             return;
         }
 
-        // Cria e preenche o objeto Funcionario
-        Funcionario funcionario = new Funcionario();
-        funcionario.setNome(nomeField.getText());
-        funcionario.setCpf(cpfField.getText());
-        funcionario.setTelefone(telefoneField.getText());
+        String nome = campoNome.getText();
+        String telefone = campoTelefone.getText();
 
-        // Valida e define o salário
         try {
-            double salario = Double.parseDouble(salarioField.getText());
-            funcionario.setSalario(salario);
-        } catch (NumberFormatException exception) {
-            System.out.println("Erro: O salário deve ser um número válido.");
-            return;
-        }
+            funcionario.setNome(nome);
+            funcionario.setTelefone(telefone);
 
-        // Tenta salvar o funcionário no banco de dados
-        try {
             funcionarioDAO.save(funcionario);
-            System.out.println("Funcionário adicionado com sucesso.");
-            gerenciamentoFuncs.atualizarTabela(); // Atualiza a tabela na interface
-        } catch (Exception e) {
-            System.err.println("Erro ao adicionar funcionário:");
-            e.printStackTrace(); // Log completo da exceção
+
+            campoNome.setDisable(true);
+            campoTelefone.setDisable(true);
+        }catch(Exception e){
+            showAlert("Erro ao cadastrar: ", "" + e);
         }
+        return;
+    }
+
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }

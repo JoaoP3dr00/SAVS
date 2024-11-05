@@ -9,7 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
-public class DeleteFuncController {
+public class DeleteFuncionarioController {
     private FuncionarioDAO fDAO = new FuncionarioDAO();
 
     @FXML
